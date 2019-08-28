@@ -15,11 +15,11 @@ import Foundation
 /// multiPeer(connectedPeersChanged: [Peer])
 
 public protocol MultiPeerDelegate: class {
-
+    
     /// didReceiveData: delegate runs on receiving data from another peer
     func multiPeer(didReceiveData data: Data, ofType type: UInt32)
-
+    
     /// connectedPeersChanged: delegate runs on connection/disconnection event in session
     func multiPeer(connectedPeersChanged peers: [Peer])
-
+    
 }
