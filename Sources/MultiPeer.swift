@@ -275,7 +275,7 @@ extension MultiPeer: MCSessionDelegate {
             availablePeers = availablePeers.filter { $0.peerID != peerID }
             printDebug("Peer \(peerID.displayName) changed to connected.")
         } else {
-            availablePeers.filter { $0.peerID == peerID }.first?.state = state
+            availablePeers.filter { $0.peerID == peerID }.first?._state = state
             printDebug("Peer \(peerID.displayName) changed to not connected.")
         }
 
