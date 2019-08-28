@@ -12,14 +12,14 @@ import Foundation
 /// - Delegate for MultiPeer. Conform to this interface to recieve data and be notified when connection/disconnection events occur
 ///
 /// multiPeer(didRecieveData: Data, ofType: UInt32)
-/// multiPeer(connectedDevicesChanged: [String])
+/// multiPeer(connectedPeersChanged: [Peer])
 
 public protocol MultiPeerDelegate: class {
 
     /// didReceiveData: delegate runs on receiving data from another peer
     func multiPeer(didReceiveData data: Data, ofType type: UInt32)
 
-    /// connectedDevicesChanged: delegate runs on connection/disconnection event in session
-    func multiPeer(connectedDevicesChanged devices: [String])
+    /// connectedPeersChanged: delegate runs on connection/disconnection event in session
+    func multiPeer(connectedPeersChanged peers: [Peer])
 
 }

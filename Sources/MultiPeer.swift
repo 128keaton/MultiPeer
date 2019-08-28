@@ -179,6 +179,36 @@ public class MultiPeer: NSObject {
         }
     }
 
+    /// Sends Data (and type) to all connected peers.
+    /// - Parameters:
+    ///     - data: Data (Data) to send to all connected peers.
+    ///     - type: Type of data (UInt32) sent
+    ///     - toPeers: Array of peers to send to
+    /// After sending the data, you can use the extension for Data, `convertData()` to convert it back into data.
+    public func send(data: Data, type: UInt32, toPeers: [Peer]) {
+        if isConnected {
+            let mappedPeers = toPeers.map { $0.peerID }
+            do {
+                let container: [Any] = [data, type]
+                let item = NSKeyedArchiver.archivedData(withRootObject: container)
+                try session.send(item, toPeers: mappedPeers, with: MCSessionSendDataMode.reliable)
+            } catch let error {
+                printDebug(error.localizedDescription)
+            }
+        }
+    }
+    
+    /// Sends Data (and type) to all connected peers.
+    /// - Parameters:
+    ///     - data: Data (Data) to send to all connected peers.
+    ///     - type: Type of data (UInt32) sent
+    ///     - toPeer: Peer to send to
+    /// After sending the data, you can use the extension for Data, `convertData()` to convert it back into data.
+    public func send(data: Data, type: UInt32, toPeer: Peer) {
+        self.send(data: data, type: type, toPeers: [toPeer])
+    }
+
+    
     /** Prints only if in debug mode */
     fileprivate func printDebug(_ string: String) {
         if debugMode {
@@ -254,7 +284,7 @@ extension MultiPeer: MCSessionDelegate {
 
         // Send new connection list to delegate
         OperationQueue.main.addOperation {
-            self.delegate?.multiPeer(connectedDevicesChanged: session.connectedPeers.map({$0.displayName}))
+            self.delegate?.multiPeer(connectedPeersChanged: self.connectedPeers)
         }
     }
 
