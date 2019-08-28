@@ -284,7 +284,8 @@ extension MultiPeer: MCSessionDelegate {
 
         // Send new connection list to delegate
         OperationQueue.main.addOperation {
-            self.delegate?.multiPeer(connectedPeersChanged: self.connectedPeers)
+            let localConnectedPeers = session.connectedPeers.map { Peer(peerID: $0, state: .connected) }
+            self.delegate?.multiPeer(connectedPeersChanged: localConnectedPeers)
         }
     }
 
